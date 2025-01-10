@@ -11,6 +11,7 @@ const Header = styled.header`
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+
 `;
 
 const Logo = styled.div`

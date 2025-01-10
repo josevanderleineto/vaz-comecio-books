@@ -1,8 +1,9 @@
-/* eslint-disable no-unused-vars */
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
+// Estilização dos componentes
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -11,6 +12,7 @@ const Container = styled.div`
   gap: 20px;
   padding: 20px;
   min-height: 100vh;
+  max-height: 100%;
   width: 100vw;
   margin: 0;
   box-sizing: border-box;
@@ -21,27 +23,31 @@ const Card = styled.div`
   background-color: #ffffff;
   border-radius: 10px;
   padding: 20px;
-  width: 280px;
-  height: 450px;
+  width: 350px; /* Largura do card */
+  height: 550px; /* Altura do card */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
   text-align: center;
-  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   box-sizing: border-box;
   overflow: hidden;
+  margin-bottom: 20px;
+
   &:hover {
     transform: scale(1.05);
   }
+
   @media (max-width: 768px) {
-    width: 250px;
-    height: 500px; /* Ajuste para permitir mais espaço na versão mobile */
+    width: 320px; /* Ajuste para tablets */
+    height: 600px; /* Altura maior para telas menores */
   }
+
   @media (max-width: 480px) {
-    width: 220px;
-    height: 550px; /* Maior altura em dispositivos móveis */
+    width: 300px; /* Ajuste para celulares */
+    height: 650px; /* Altura maior para celulares */
   }
 `;
 
@@ -55,50 +61,55 @@ const Image = styled.img`
 
 const Title = styled.h3`
   color: #333;
-  font-size: 1.2em;
+  font-size: 1.2em; /* Título maior */
   margin: 10px 0;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 const Description = styled.p`
   color: #666;
-  font-size: 0.9em;
-  margin-bottom: 15px;
-  overflow: auto;
-  max-height: 100px;
-  flex-grow: 1;
-  white-space: normal;
+  font-size: 1em; /* Descrição maior */
+  margin-bottom: 10px;
+  overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.4;
-  @media (max-width: 768px) {
-    max-height: 120px; /* Ajuste para maior visibilidade em telas pequenas */
-  }
-  @media (max-width: 480px) {
-    max-height: 150px; /* Maior altura em dispositivos móveis */
-  }
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* Exibe até 5 linhas */
+  -webkit-box-orient: vertical;
+`;
+
+const Quantity = styled.p`
+  font-size: 1em; /* Texto maior para quantidade */
+  color: #555;
+  margin-bottom: 10px;
 `;
 
 const Price = styled.p`
   color: #e74c3c;
-  font-size: 1.2em;
+  font-size: 1.2em; /* Preço mais destacado */
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 `;
 
 const Button = styled.a`
   background-color: #25d366;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 25px; /* Botão maior */
   border-radius: 5px;
   text-decoration: none;
-  font-size: 1em;
-  width: 80%;
+  font-size: 1em; /* Texto maior no botão */
+  width: 90%; /* Mais largo */
   text-align: center;
-  margin-top: 10px;
+  margin-top: 15px;
+
   &:hover {
     background-color: #128c7e;
   }
 `;
 
+// Componente principal
 const SalesPage = () => {
   const [books, setBooks] = useState([]);
 
@@ -108,7 +119,7 @@ const SalesPage = () => {
         const response = await axios.get("https://api-books-1.onrender.com/livros");
         setBooks(response.data);
       } catch (error) {
-        console.error("Error fetching books:", error);
+        console.error("Erro ao buscar os livros:", error);
       }
     };
     fetchBooks();
@@ -116,22 +127,27 @@ const SalesPage = () => {
 
   return (
     <Container>
-      {books.map(([id, title, author, description, quantity, price, imageUrl]) => (
-        <Card key={id}>
-          <Image src={imageUrl} alt={title} />
-          <Title>{title}</Title>
-          <Description>{description}</Description>
-          <Price>R$ {price}</Price>
-          <Button
-            href={`https://wa.me/55[SEU_NÚMERO]?text=Olá!%20Gostaria%20de%20comprar%20o%20livro%20${encodeURIComponent(
-              title
-            )}`}
-            target="_blank"
-          >
-            Comprar no WhatsApp
-          </Button>
-        </Card>
-      ))}
+      {books.map((book) => {
+        const [id, title, author, description, quantity, price, imageUrl] = book;
+
+        return (
+          <Card key={id}>
+            <Image src={imageUrl} alt={title} />
+            <Title>{title}</Title>
+            <Description>{description}</Description>
+            <Quantity>Quantidade: {quantity}</Quantity>
+            <Price>R$ {price}</Price>
+            <Button
+              href={`https://wa.me/55[SEU_NÚMERO]?text=Olá!%20Gostaria%20de%20comprar%20o%20livro%20${encodeURIComponent(
+                title
+              )}`}
+              target="_blank"
+            >
+              Comprar no WhatsApp
+            </Button>
+          </Card>
+        );
+      })}
     </Container>
   );
 };
