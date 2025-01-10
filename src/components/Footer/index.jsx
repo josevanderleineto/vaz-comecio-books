@@ -31,7 +31,7 @@ const Footer = () => {
     <FooterContainer>
       <FooterText>Todos os direitos reservados a Vaz Comércio</FooterText>
       <FooterText>
-        Feito por <FooterLink href="https://github.com/vanderleineto">Vanderlei Neto</FooterLink>
+        Feito por <FooterLink href="https://vanderleidev.live/" target="_blanck">Vanderlei Neto</FooterLink>
       </FooterText>
     </FooterContainer>
   );
