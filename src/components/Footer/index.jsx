@@ -17,22 +17,12 @@ const FooterText = styled.p`
   color: #fff;
 `;
 
-const FooterLink = styled.a`
-  color: rgb(107, 171, 240);
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 const Footer = () => {
   return (
     <FooterContainer>
       <FooterText>Todos os direitos reservados a Vaz Comércio</FooterText>
-      <FooterText>
-        Feito por <FooterLink href="https://vanderleidev.live/" target="_blanck">Vanderlei Neto</FooterLink>
-      </FooterText>
+  
     </FooterContainer>
   );
 };
