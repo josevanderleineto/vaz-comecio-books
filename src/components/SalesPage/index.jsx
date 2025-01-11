@@ -47,13 +47,13 @@ const Card = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: 280px; /* Ajuste para tablets */
-    height: 550px; /* Altura ajustada */
+    width: 220px; /* Ajuste para tablets */
+    height: 500px; /* Altura ajustada */
   }
 
   @media (max-width: 480px) {
     width: 260px; /* Ajuste para celulares */
-    height: 600px; /* Altura maior para celulares */
+    height: 570px; /* Altura maior para celulares */
   }
 `;
 
@@ -67,18 +67,15 @@ const Image = styled.img`
 
 const Title = styled.h3`
   color: #333;
-  font-size: 1.1em; /* Tamanho reduzido */
+  font-size: 0.8rem; /* Tamanho reduzido */
   margin: 10px 0;
   line-height: 1.4;
   text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 `;
 
 const Description = styled.p`
   color: #666;
-  font-size: 0.9em; /* Descrição menor */
-  margin-bottom: 10px;
+  font-size: 0.6rem; /* Descrição menor */
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
