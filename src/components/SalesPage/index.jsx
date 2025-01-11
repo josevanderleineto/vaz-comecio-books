@@ -122,7 +122,7 @@ const SalesPage = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get("https://api-books-1.onrender.com/livros");
+        const response = await axios.get("https://api-books-vaz.onrender.com/livros");
         setBooks(response.data);
       } catch (error) {
         console.error("Erro ao buscar os livros:", error);
@@ -134,35 +134,30 @@ const SalesPage = () => {
   return (
     <Container>
       <h1 style={{ textAlign: "center", color: "#333", marginBottom: "20px" }}>
-      Bem-vindo! Conheça nossa coleção de livros sobre saúde!
+        Bem-vindo! Conheça nossa coleção de livros sobre saúde!
       </h1>
       <p style={{ textAlign: "center", color: "#555", marginBottom: "30px", maxWidth: "800px", fontSize: "1.1em" }}>
         Aqui você encontra livros de medicina e áreas da saúde em geral. Todos são usados, mas estão bem conservados, 
         e nossos preços são acessíveis para garantir que você encontre o que precisa sem pesar no bolso!
       </p>
       <CardsWrapper>
-        {books.map((book) => {
-          // eslint-disable-next-line no-unused-vars
-          const [id, title, author, description, quantity, price, imageUrl] = book;
-
-          return (
-            <Card key={id}>
-              <Image src={imageUrl} alt={title} />
-              <Title>{title}</Title>
-              <Description>{description}</Description>
-              <Quantity>Quantidade: {quantity}</Quantity>
-              <Price>R$ {price}</Price>
-              <Button
-                href={`https://wa.me/55[SEU_NÚMERO]?text=Olá!%20Gostaria%20de%20comprar%20o%20livro%20${encodeURIComponent(
-                  title
-                )}`}
-                target="_blank"
-              >
-                Comprar no WhatsApp
-              </Button>
-            </Card>
-          );
-        })}
+        {books.map((book) => (
+          <Card key={book._id}>
+            <Image src={book.url_imagem} alt={book.titulo} />
+            <Title>{book.titulo}</Title>
+            <Description>{book.descricao}</Description>
+            <Quantity>Quantidade: {book.quantidade}</Quantity>
+            <Price>R$ {book.valor.toFixed(2)}</Price>
+            <Button
+              href={`https://wa.me/55[SEU_NÚMERO]?text=Olá!%20Gostaria%20de%20comprar%20o%20livro%20${encodeURIComponent(
+                book.titulo
+              )}`}
+              target="_blank"
+            >
+              Comprar no WhatsApp
+            </Button>
+          </Card>
+        ))}
       </CardsWrapper>
     </Container>
   );
