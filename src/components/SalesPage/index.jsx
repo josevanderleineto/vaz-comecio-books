@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
@@ -112,17 +111,36 @@ const Button = styled.a`
   }
 `;
 
+const SkeletonCard = styled(Card)`
+  background-color: #e0e0e0;
+  animation: pulse 1.5s infinite;
+  @keyframes pulse {
+    0% {
+      background-color: #e0e0e0;
+    }
+    50% {
+      background-color: #f0f0f0;
+    }
+    100% {
+      background-color: #e0e0e0;
+    }
+  }
+`;
+
 // Componente principal
 const SalesPage = () => {
   const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
         const response = await axios.get("https://api-books-vaz.onrender.com/livros");
         setBooks(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("Erro ao buscar os livros:", error);
+        setLoading(false);
       }
     };
     fetchBooks();
@@ -138,23 +156,32 @@ const SalesPage = () => {
         e nossos preços são acessíveis para garantir que você encontre o que precisa sem pesar no bolso!
       </p>
       <CardsWrapper>
-        {books.map((book) => (
-          <Card key={book._id}>
-            <Image src={book.url_imagem} alt={book.titulo} />
-            <Title>{book.titulo}</Title>
-            <Description>{book.descricao}</Description>
-            <Quantity>Quantidade: {book.quantidade}</Quantity>
-            <Price>R$ {book.valor.toFixed(2)}</Price>
-            <Button
-              href={`https://wa.me/55[SEU_NÚMERO]?text=Olá!%20Gostaria%20de%20comprar%20o%20livro%20${encodeURIComponent(
-                book.titulo
-              )}`}
-              target="_blank"
-            >
-              Comprar no WhatsApp
-            </Button>
-          </Card>
-        ))}
+        {loading ? (
+          <>
+            <p style={{ textAlign: "center", color: "#555", fontSize: "1.1em" }}>
+              Carregando livros, por favor aguarde...
+            </p>
+            <SkeletonCard />
+          </>
+        ) : (
+          books.map((book) => (
+            <Card key={book._id}>
+              <Image src={book.url_imagem} alt={book.titulo} />
+              <Title>{book.titulo}</Title>
+              <Description>{book.descricao}</Description>
+              <Quantity>Quantidade: {book.quantidade}</Quantity>
+              <Price>R$ {book.valor.toFixed(2)}</Price>
+              <Button
+                href={`https://wa.me/55[SEU_NÚMERO]?text=Olá!%20Gostaria%20de%20comprar%20o%20livro%20${encodeURIComponent(
+                  book.titulo
+                )}`}
+                target="_blank"
+              >
+                Comprar no WhatsApp
+              </Button>
+            </Card>
+          ))
+        )}
       </CardsWrapper>
     </Container>
   );
